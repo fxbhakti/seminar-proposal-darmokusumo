@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#141414">
+<title>Seminar Proposal — Darmokusumo Atmojo Sugiharto</title>
+<style>
+  :root {
+    --black: #141414;
+    --red: #E31820;
+    --yellow: #F0C800;
+    --ink: #1A1A1A;
+    --muted: #5C564E;
+    --line: #E6E0D4;
+    --cream: #FBF6E8;
+    --paper: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #0e0e0e; overflow: hidden; }
+  body { font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+  .viewport { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+  body.show-notes .viewport { height: calc(100vh - 210px); }
+  #deck { width: 1600px; height: 900px; position: absolute; left: 50%; top: 50%; transform-origin: center center; }
+  .slide {
+    display: none; position: absolute; inset: 0; width: 1600px; height: 900px;
+    background: var(--paper); overflow: hidden; flex-direction: column;
+  }
+  .slide.active { display: flex; }
+  .brandbar { height: 10px; flex: none; display: grid; grid-template-columns: 1.35fr .72fr .72fr 1.2fr; }
+  .brandbar i { display: block; }
+  .brandbar i:nth-child(1), .brandbar i:nth-child(4) { background: var(--black); }
+  .brandbar i:nth-child(2) { background: var(--red); }
+  .brandbar i:nth-child(3) { background: var(--yellow); }
+  .frame { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 26px 56px 0; }
+  .kicker { margin: 0 0 6px; color: var(--red); font-size: 14px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+  h1 { margin: 0; font-size: 40px; line-height: 1.08; font-weight: 750; letter-spacing: -.02em; color: var(--black); }
+  .rule { width: 78px; height: 7px; background: var(--yellow); margin-top: 12px; }
+  .content { flex: 1; min-height: 0; padding-top: 22px; display: flex; flex-direction: column; }
+  footer.foot {
+    flex: none; height: 54px; display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; margin-top: 8px;
+  }
+  footer.foot b { color: var(--red); font-size: 16px; letter-spacing: .04em; }
+  .notes { display: none; }
+  h1, h2, p { font-weight: 650; }
+  h1 { font-weight: 700; }
+  p { margin: 0; font-weight: 450; }
+
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 24px 22px 26px; position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: var(--red);
+  }
+  .card.y::before { background: var(--yellow); }
+  .card.k::before { background: var(--black); }
+  .stamp {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 42px; height: 32px; padding: 0 8px; background: var(--yellow); color: var(--black);
+    font-weight: 800; font-size: 16px; letter-spacing: .04em;
+  }
+  .card h2 { margin: 12px 0 8px; font-size: 22px; line-height: 1.2; color: var(--black); }
+  .card p, .lead { font-size: 18px; line-height: 1.38; color: var(--ink); font-weight: 450; }
+  .src { margin-top: 4px; color: var(--red); font-size: 14px; font-style: italic; font-weight: 600; }
+  .callout { background: var(--black); color: #fff; border-radius: 16px; padding: 22px 28px; }
+  .callout .label { color: var(--yellow); font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .callout p { color: #fff; font-size: 20px; line-height: 1.35; margin-top: 8px; font-weight: 450; }
+  .callout p + p { color: #F6E7A8; margin-top: 8px; }
+  .band { background: var(--cream); border-radius: 16px; padding: 18px 24px; }
+  .band .label { color: var(--black); background: var(--yellow); display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .12em; padding: 3px 8px; text-transform: uppercase; }
+  .band p { margin-top: 8px; font-size: 18px; line-height: 1.38; }
+
+  .q { display: grid; grid-template-columns: 84px 1fr; gap: 8px 18px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 26px 32px; }
+  .q + .q { margin-top: 18px; }
+  .q .n {
+    width: 72px; height: 72px; border-radius: 50%; background: var(--red); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800;
+  }
+  .q .tag { color: var(--red); font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .q p { margin-top: 6px; font-size: 24px; line-height: 1.28; font-weight: 550; }
+
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 17px; line-height: 1.3; }
+  table.naskah { table-layout: fixed; font-size: 15px; line-height: 1.28; }
+  table.naskah th, table.naskah td { font-size: 15px; padding: 8px 10px; }
+  table.naskah tr.now td { background: var(--yellow); color: var(--black); font-weight: 650; }
+  .flow { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr 32px 1fr 32px 1fr; align-items: stretch; }
+  .fbox { position: relative; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 16px 14px; display: flex; flex-direction: column; border-top: 8px solid var(--black); }
+  .fbox.r { border-top-color: var(--red); }
+  .fbox.y { border-top-color: var(--yellow); }
+  .fbox h2 { margin: 10px 0 8px; font-size: 22px; line-height: 1.15; }
+  .fbox p { font-size: 16px; line-height: 1.38; }
+  .fbox::after { content: attr(data-n); margin-top: auto; align-self: flex-end; font-size: 64px; font-weight: 800; line-height: .85; color: rgba(20,20,20,.08); }
+  .arrow { display: flex; align-items: flex-start; justify-content: center; padding-top: 86px; color: var(--red); font-size: 28px; font-weight: 800; }
+  table.roomy, table.roomy th, table.roomy td { font-size: 20px; line-height: 1.38; }
+  table.roomy th, table.roomy td { padding: 22px 18px; }
+  .content:has(> table.roomy), .content:has(> .q), .content:has(> .loc) { justify-content: center; }
+  .content > .loc { flex: 0 0 auto; }
+  .loc th, .loc td { padding: 18px 16px; }
+  .content:has(> .q) { gap: 22px; }
+  .content:has(> .q) .q { margin: 0; }
+  .content > .grid2, .content > .grid3, .content > .mini, .content > .steps { flex: 1; min-height: 0; }
+  .content > .grid2:has(> :nth-child(3)), .content > .mini { grid-template-rows: 1fr 1fr; }
+  .content > .grid3, .content > .steps { grid-template-rows: 1fr; }
+  .card, .panel { height: 100%; }
+  th { text-align: left; padding: 16px 16px; font-weight: 750; color: #fff; background: var(--black); font-size: 18px; }
+  td { padding: 16px 16px; vertical-align: middle; border-bottom: 1px solid var(--line); background: #fff; font-weight: 450; font-size: 18px; }
+  tr:nth-child(even) td { background: var(--cream); }
+  td.lab { font-weight: 800; color: var(--black); }
+  th.red { background: var(--red); }
+  th.yel { background: var(--yellow); color: var(--black); }
+
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .rowbar {
+    display: grid; grid-template-columns: 64px 210px 1fr; gap: 16px; align-items: center;
+    background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 20px 12px 14px;
+  }
+  .rowbar .n {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--black); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;
+  }
+  .rowbar.gold .n { background: var(--yellow); color: var(--black); }
+  .rowbar strong { font-size: 20px; }
+  .rowbar span { font-size: 18px; line-height: 1.3; font-weight: 450; }
+
+  .split { display: grid; gap: 18px; flex: 1; min-height: 0; }
+  .colhead { color: #fff; font-size: 22px; font-weight: 750; padding: 14px 22px; }
+  .colhead.k { background: var(--black); }
+  .colhead.r { background: var(--red); }
+  .colhead.y { background: var(--yellow); color: var(--black); }
+  .panel { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
+  .panel .inner { padding: 18px 22px 20px; }
+  .panel h2 { margin: 14px 0 4px; font-size: 18px; }
+  .panel p { font-size: 16px; line-height: 1.35; }
+  .dark {
+    background: var(--black); color: #fff; border-radius: 16px; padding: 22px 24px;
+  }
+  .dark .label { color: var(--black); background: var(--yellow); display: inline-block; font-weight: 800; letter-spacing: .12em; font-size: 12px; padding: 4px 8px; }
+  .dark p { color: #fff; font-size: 18px; line-height: 1.38; margin-top: 12px; }
+  .dark p.soft { color: #F6E7A8; }
+
+  .mini { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .mini .card h2 { margin-top: 0; font-size: 20px; }
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .loc { display: grid; grid-template-columns: 1.55fr .72fr; gap: 18px; flex: 1; }
+  .side { background: var(--black); color: #fff; border-radius: 16px; padding: 28px 26px; display: flex; flex-direction: column; }
+  .side h2 { margin: 0; font-size: 28px; color: #fff; }
+  .side .sub { color: var(--yellow); font-weight: 700; margin: 6px 0 8px; font-size: 15px; }
+  .side li { margin: 0; font-size: 22px; line-height: 1.25; }
+  .side ul { margin: 8px 0 0; padding: 0; list-style: none; flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; }
+  .hint { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.35; }
+
+  .cover-top, .end-foot { display: flex; align-items: center; justify-content: space-between; padding: 26px 60px 0; }
+  .cover-top img.crest { height: 124px; width: auto; }
+  .cover-top img.word { height: 88px; width: auto; }
+  .end-foot img.word { height: 68px; width: auto; background: #fff; }
+  .cover-main { flex: 1; padding: 18px 64px 0; display: flex; flex-direction: column; justify-content: center; }
+  .cover-main .eyebrow { color: var(--red); font-weight: 800; letter-spacing: .18em; font-size: 16px; margin-bottom: 16px; }
+  .cover-main h1 { font-size: 56px; line-height: 1.14; max-width: 1280px; }
+  .cover-main .sub { margin-top: 22px; font-size: 28px; line-height: 1.25; max-width: 1100px; font-weight: 500; }
+  .mark { background: var(--yellow); color: var(--black); padding: 0 6px; font-weight: 750; }
+  .redw { color: var(--red); font-weight: 750; }
+  .advisor { margin-top: 28px; }
+  .advisor span { display: inline-block; background: var(--yellow); color: var(--black); font-weight: 800; font-size: 13px; letter-spacing: .12em; padding: 3px 8px; }
+  .advisor strong { display: block; margin-top: 8px; font-size: 22px; }
+  .cover-foot {
+    background: var(--black); color: #fff; display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 64px; min-height: 112px;
+  }
+  .cover-foot .name { font-size: 26px; font-weight: 750; }
+  .cover-foot .meta { margin-top: 4px; color: #E7E2D8; font-size: 16px; }
+  .cover-foot .right { text-align: right; font-size: 16px; line-height: 1.4; color: #E7E2D8; }
+  .cover-foot .right b { color: var(--yellow); font-weight: 650; }
+
+  .slide.end { background: var(--black); color: #fff; }
+  .end-main { flex: 1; padding: 36px 72px 0; }
+  .end-main .eyebrow { color: var(--yellow); letter-spacing: .18em; font-weight: 800; font-size: 15px; }
+  .end-main h1 { color: #fff; font-size: 46px; max-width: 1200px; margin-top: 18px; }
+  .end-points { margin-top: 36px; }
+  .end-points p { font-size: 26px; line-height: 1.35; margin: 0 0 16px; font-weight: 500; padding-left: 22px; border-left: 7px solid var(--yellow); }
+  .end-points p:nth-child(2) { border-left-color: var(--red); }
+  .end-main .thanks { margin-top: 36px; font-size: 28px; color: var(--yellow); font-weight: 750; }
+  .end-main .thanks b { display: block; color: #fff; margin-top: 4px; }
+  .end-foot { background: #fff; padding: 16px 60px; }
+  .end-foot div { text-align: right; color: var(--black); font-size: 16px; line-height: 1.35; }
+  .end-foot div b { display: block; }
+
+  #progress { position: fixed; left: 0; right: 0; bottom: 0; height: 6px; background: #2a2a2a; z-index: 8; }
+  body.show-notes #progress { bottom: 210px; }
+  #progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--red) 0 62%, var(--yellow) 62% 100%); }
+  .hud {
+    position: fixed; right: 18px; bottom: 16px; z-index: 9; display: flex; gap: 8px; align-items: center;
+    opacity: 0; transition: opacity .2s;
+  }
+  .hud:hover, .hud:focus-within, body.show-notes .hud { opacity: 1; }
+  html:fullscreen .hud { display: none; }
+  body.show-notes .hud { bottom: 226px; }
+  .hud button, .hud span {
+    background: #1c1c1c; color: #fff; border: 1px solid #3a3a3a; border-radius: 999px;
+    font: 600 13px "Segoe UI", sans-serif; padding: 6px 12px;
+  }
+  .hud button { cursor: pointer; }
+  .hud button:hover { background: var(--red); border-color: var(--red); }
+  .notes-panel {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; height: 210px; z-index: 7;
+    background: #141414; color: #F7F1E4; border-top: 8px solid var(--yellow); padding: 16px 48px 20px;
+  }
+  body.show-notes .notes-panel { display: block; }
+  .notes-panel .nh { color: var(--yellow); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+
+  .page-logo {
+    position: absolute; z-index: 6; top: 18px; left: 28px; height: 96px; width: auto;
+    pointer-events: none; background: transparent;
+  }
+  .frame > header { padding-left: 148px; }
+  .cover-top { justify-content: flex-end; align-items: flex-start; padding-top: 16px; min-height: 108px; }
+  .end-main { padding-top: 132px; }
+  .slide.end .page-logo { background: #fff; padding: 6px 8px; border-radius: 6px; box-sizing: content-box; }
+  .end-foot { justify-content: space-between; align-items: center; }
+  .notes-panel p { margin-top: 8px; font-size: 18px; line-height: 1.4; max-width: 1480px; overflow: auto; max-height: 140px; }
+
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  .slide.active { animation: rise .38s ease; }
+  @keyframes rise { from { opacity: .2; } to { opacity: 1; } }
+  .hint-swipe { display: none; }
+
+  body.phone {
+    overflow: hidden;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  body.phone .viewport { width: 100%; height: calc(100dvh - 78px - env(safe-area-inset-bottom)); }
+  body.phone.show-notes .viewport { height: calc(100dvh - 42vh - 78px); }
+  body.phone #deck {
+    position: relative; left: auto; top: auto !important; width: 100%; height: 100%;
+    transform: none !important;
+  }
+  body.phone .slide {
+    position: relative; width: 100%; height: 100%; min-height: 0;
+    overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+    touch-action: manipulation;
+  }
+  body.phone .page-logo { height: 54px; top: 10px; left: 10px; }
+  body.phone .frame { flex: 0 0 auto; min-height: auto; padding: 8px 14px 12px; }
+  body.phone .frame > header { padding-left: 68px; }
+  body.phone h1 { font-size: 26px; line-height: 1.15; }
+  body.phone .kicker { font-size: 12px; letter-spacing: .08em; }
+  body.phone .content { flex: 0 0 auto; min-height: auto; padding-top: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  body.phone .content > .grid2,
+  body.phone .content > .grid3,
+  body.phone .content > .mini,
+  body.phone .content > .steps,
+  body.phone .content > .grid2:has(> :nth-child(3)) {
+    grid-template-columns: 1fr; grid-template-rows: none; flex: none;
+  }
+  body.phone .card, body.phone .panel, body.phone .fbox { height: auto; overflow: visible; }
+  body.phone .card h2 { font-size: 18px; }
+  body.phone .card p, body.phone .lead, body.phone .panel p, body.phone .band p { font-size: 16px; }
+  body.phone .q { grid-template-columns: 52px 1fr; padding: 16px; }
+  body.phone .q .n { width: 48px; height: 48px; font-size: 22px; }
+  body.phone .q p { font-size: 17px; }
+  body.phone .content:has(> .q),
+  body.phone .content:has(> table.roomy),
+  body.phone .content:has(> .loc) { justify-content: flex-start; }
+  body.phone .split { grid-template-columns: 1fr !important; grid-template-rows: none !important; }
+  body.phone .dark { grid-row: auto !important; }
+  body.phone .loc { grid-template-columns: 1fr; flex: none; }
+  body.phone .flow { display: flex; flex-direction: column; gap: 0; }
+  body.phone .arrow { padding: 0; height: 28px; transform: rotate(90deg); }
+  body.phone .fbox h2 { font-size: 18px; }
+  body.phone .fbox p { font-size: 15px; }
+  body.phone .stamp { align-self: flex-start; }
+  body.phone .fbox::after { font-size: 36px; }
+  body.phone table, body.phone table tbody, body.phone table tr { display: block; width: 100%; min-width: 0; }
+  body.phone table { min-width: 0; }
+  body.phone table thead { display: none; }
+  body.phone table tr {
+    margin: 0 0 12px; background: #fff;
+    border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  }
+  body.phone table td, body.phone table.naskah td, body.phone table.roomy td {
+    display: block; width: 100%; min-width: 0; max-width: 100%;
+    font-size: 15px; line-height: 1.4; white-space: normal;
+    padding: 8px 12px; border-bottom: 1px solid #eee; box-sizing: border-box;
+  }
+  body.phone table td::before {
+    content: ""; display: block; margin-bottom: 2px;
+    color: var(--red); font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+  }
+  body.phone .t22 td:nth-child(1)::before { content: "Parameter tata kelola"; }
+  body.phone .t22 td:nth-child(2)::before { content: "Prinsip solidaritas"; }
+  body.phone .t22 td:nth-child(3)::before { content: "Prinsip subsidiaritas"; }
+  body.phone .t22 td:nth-child(4)::before { content: "Titik temu dalam sistem RAB"; }
+  body.phone .t23 td:nth-child(1)::before { content: "No."; }
+  body.phone .t23 td:nth-child(2)::before { content: "Peneliti dan tahun"; }
+  body.phone .t23 td:nth-child(3)::before { content: "Fokus kajian dan metodologi"; }
+  body.phone .t23 td:nth-child(4)::before { content: "Temuan utama"; }
+  body.phone .t23 td:nth-child(5)::before { content: "Celah yang diisi tesis ini"; }
+  body.phone .tloc td:nth-child(1)::before { content: "Kelompok"; }
+  body.phone .tloc td:nth-child(2)::before { content: "Paroki"; }
+  body.phone .tloc td:nth-child(3)::before { content: "Alasan pemilihan"; }
+  body.phone .t32 td:nth-child(1)::before { content: "Data"; }
+  body.phone .t32 td:nth-child(2)::before { content: "Jenis data"; }
+  body.phone .t32 td:nth-child(3)::before { content: "Sumber data"; }
+  body.phone table.naskah tr.now td { background: #fff6c2; }
+  body.phone footer.foot { height: auto; min-height: 44px; flex-wrap: wrap; gap: 6px; padding: 8px 0 4px; }
+  body.phone .cover-top { min-height: 64px; padding: 8px 12px 0; }
+  body.phone .cover-top img.word { height: 46px; }
+  body.phone .cover-main { padding: 8px 16px 0; justify-content: flex-start; }
+  body.phone .cover-main h1 { font-size: 30px; }
+  body.phone .cover-main .sub { font-size: 18px; }
+  body.phone .cover-foot { flex-direction: column; align-items: flex-start; gap: 10px; min-height: 0; padding: 16px; }
+  body.phone .cover-foot .right { text-align: left; }
+  body.phone .end-main { padding: 76px 18px 16px; }
+  body.phone .end-main h1 { font-size: 26px; }
+  body.phone .end-points p { font-size: 17px; }
+  body.phone .end-foot { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 16px 16px; }
+  body.phone .end-foot img.word { height: 48px; }
+  body.phone .end-foot div { text-align: left; }
+  body.phone .hud {
+    opacity: 1; left: 8px; right: 8px; justify-content: center; flex-wrap: wrap;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+  }
+  body.phone .hud button { min-width: 44px; min-height: 44px; font-size: 16px; }
+  body.phone .hint-swipe { display: inline; color: var(--yellow); font-size: 12px; letter-spacing: .04em; }
+  body.phone .notes-panel { height: 42vh; padding: 12px 16px 16px; }
+  body.phone .notes-panel p { font-size: 16px; max-height: 28vh; }
+</style>
+</head>
+<body>
+<div class="viewport">
+<div id="deck">
+<img class="page-logo" alt="Logo UKWMS" src="data:image/png;base64,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">
+
+<section class="slide cover active">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="cover-top">
+    <img class="word" alt="UKWMS, a life-improving university" src="data:image/webp;base64,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">
+  </div>
+  <div class="cover-main">
+    <div class="eyebrow">SEMINAR PROPOSAL</div>
+    <h1>Tata Kelola Keuangan Berbasis<br>Rencana Anggaran Belanja</h1>
+    <p class="sub">Mengintegrasikan <span class="redw">Solidaritas</span> dan <span class="mark">Subsidiaritas</span><br>untuk Keberlanjutan Misi Gereja</p>
+    <div class="advisor">
+      <span>PEMBIMBING</span>
+      <strong>Dr. Ceicilia Bintang Hari Yudhanti, S.E., M.Si.</strong>
+    </div>
+  </div>
+  <div class="cover-foot">
+    <div>
+      <div class="name">Darmokusumo Atmojo Sugiharto</div>
+      <div class="meta">NIM 8312425003 · Program Studi Magister Akuntansi</div>
+    </div>
+    <div class="right">
+      Fakultas Bisnis<br>
+      <b>Universitas Katolik Widya Mandala Surabaya</b>
+    </div>
+  </div>
+  <p class="notes">Bapak dan Ibu penguji yang saya hormati. Saya Darmokusumo Atmojo Sugiharto, dari Program Magister Akuntansi, Fakultas Bisnis, Universitas Katolik Widya Mandala Surabaya. Proposal ini berjudul Tata Kelola Keuangan Berbasis Rencana Anggaran Belanja: Mengintegrasikan Solidaritas dan Subsidiaritas untuk Keberlanjutan Misi Gereja. Ini masih tahap proposal. Mohon arahan atas fokus, kerangka, dan rancangan metode sebelum saya ke lapangan.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 1 · Pendahuluan</p>
+      <h1>Latar belakang</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="grid3" style="flex:1">
+        <article class="card">
+          <span class="stamp">01</span>
+          <h2>Disparitas antarparoki</h2>
+          <p>Paroki di kawasan kota memiliki daya dukung yang lebih stabil. Sejumlah paroki di luar kota terbatas pendapatannya, bahkan membutuhkan subsidi agar pelayanan pastoral dasar tetap berjalan.</p>
+        </article>
+        <article class="card y">
+          <span class="stamp">02</span>
+          <h2>Anggaran yang masih insidental</h2>
+          <p>Banyak kegiatan lahir dari pengajuan jangka pendek. Belum ada kebiasaan menyusun RAB tahunan yang memuat analisis biaya dan proyeksi likuiditas satu tahun penuh.</p>
+        </article>
+        <article class="card k">
+          <span class="stamp">03</span>
+          <h2>Kepercayaan buta</h2>
+          <p>Rasa sungkan untuk menuntut keterbukaan melemahkan pengawasan dewan paroki. Ruang itu berisiko menimbulkan inefisiensi belanja dan lemahnya pertanggungjawaban dana umat.</p>
+        </article>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <div class="label">Respons kebijakan dan masalah yang diangkat</div>
+        <p>SK Keuskupan Surabaya No. 032/G.113/II/2026 mewajibkan setiap paroki menyusun program kerja dan RAB tahunan, 1 Januari–31 Desember, melalui aplikasi digital terpusat.</p>
+        <p>Yang belum tersedia adalah model RAB yang sekaligus menata subsidi silang secara adil dan tetap menghormati otonomi program di tingkat paroki.</p>
+      </div>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>02 / 15</b></footer>
+  </div>
+  <p class="notes">Ada tiga kondisi yang saling terkait. Pertama, daya dukung paroki tidak merata. Kedua, banyak kegiatan masih dianggarkan secara insidental, tanpa peta biaya untuk satu tahun penuh. Ketiga, kepercayaan umat sering tidak diikuti tuntutan keterbukaan. Keuskupan sudah mewajibkan RAB digital lewat SK 032/G.113/II/2026. Pertanyaan saya bukan pada kewajiban itu, melainkan bagaimana RAB menjadi tempat bertemunya subsidi yang adil dan otonomi paroki.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 1 · Pendahuluan</p>
+      <h1>Pertanyaan penelitian</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <article class="q">
+        <div class="n">1</div>
+        <div>
+          <div class="tag">Disparitas dan operasionalisasi nilai</div>
+          <p>Bagaimana proses desain, pembentukan, dan pengendalian Rencana Anggaran Belanja mengimplementasikan solidaritas dan subsidiaritas untuk mengurangi disparitas keuangan antarparoki di Keuskupan Surabaya?</p>
+        </div>
+      </article>
+      <article class="q">
+        <div class="n">2</div>
+        <div>
+          <div class="tag">Model tata kelola dan keberlanjutan misi</div>
+          <p>Bagaimana model tata kelola keuangan berbasis solidaritas dan subsidiaritas dalam sistem RAB dibangun untuk menjaga akuntabilitas kepercayaan umat dan keberlanjutan misi Gereja?</p>
+        </div>
+      </article>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>03 / 15</b></footer>
+  </div>
+  <p class="notes">Dua pertanyaan. Yang pertama menatap proses: bagaimana desain, pembentukan, dan pengendalian RAB menjalankan kedua prinsip itu sehingga disparitas dapat diringankan. Yang kedua menatap hasil konseptual: bagaimana model tata kelolanya dibangun agar kepercayaan umat terjaga dan misi Gereja berlanjut. Keduanya kualitatif. Saya tidak menguji pengaruh antarvariabel.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 1 · Pendahuluan</p>
+      <h1>Tujuan dan ruang lingkup</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="split" style="grid-template-columns: 1.45fr .7fr; grid-template-rows: 1fr 1fr; flex:none">
+        <article class="card">
+          <span class="stamp">TUJUAN 1</span>
+          <p style="margin-top:12px;font-size:20px">Menganalisis desain, pembentukan, dan pengendalian RAB dalam mengoperasionalkan solidaritas dan subsidiaritas, khususnya formula subsidi silang dan distribusi surplus antarparoki.</p>
+        </article>
+        <article class="dark" style="grid-row: 1 / span 2">
+          <span class="label">YANG TIDAK DITELITI</span>
+          <p>Bukan verifikasi audit atas angka buku kas, dan bukan uji kepatuhan laporan terhadap ISAK 35.</p>
+          <p class="soft">Fokusnya adalah rasionalitas keputusan anggaran, kebijakan alokasi, dan pertimbangan etis pengelola.</p>
+        </article>
+        <article class="card y">
+          <span class="stamp">TUJUAN 2</span>
+          <p style="margin-top:12px;font-size:20px">Membangun model konseptual tata kelola berbasis RAB yang mengintegrasikan kedua prinsip itu untuk memperkuat akuntabilitas fidusia dan keberlanjutan misi Gereja.</p>
+        </article>
+      </div>
+      <div class="band" style="margin-top:16px">
+        <span class="label">Batasan agar kajian tetap tajam</span>
+        <p>Siklus yang ditelaah: usulan program pastoral, peninjauan dan standardisasi alokasi, pengendalian, serta pertanggungjawaban realisasi. Lokasi: Keuskupan Surabaya. Hasilnya berupa pemahaman analitis untuk komunitas sejenis, bukan generalisasi ke agama atau keuskupan lain.</p>
+      </div>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>04 / 15</b></footer>
+  </div>
+  <p class="notes">Tujuan pertama bersifat analitis: menelaah subsidi silang dan distribusi surplus tanpa menghapus ruang keputusan paroki. Tujuan kedua bersifat konstruktif: membangun model, bukan hanya mendeskripsikan prosedur. Saya tidak mengaudit buku kas dan tidak menguji ISAK 35. Yang dipelajari adalah keputusan anggarannya. Hasilnya tidak untuk digeneralisasi ke luar Keuskupan Surabaya.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 1 · Pendahuluan</p>
+      <h1>Manfaat penelitian</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="grid2" style="flex:1; align-items:stretch">
+        <article class="panel">
+          <div class="colhead k">Akademik</div>
+          <div class="inner">
+            <h2>Stewardship pada lembaga iman</h2>
+            <p>Menguji apakah pengelolaan harta gereja lebih tepat dijelaskan sebagai pelayanan dan kebajikan moral, bukan semata konflik kepentingan.</p>
+            <h2>Rujukan tata kelola bernilai</h2>
+            <p>Menyediakan dasar konseptual bagi kajian akuntansi dan manajemen yang berpijak pada spiritualitas serta etika moral di Indonesia.</p>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="colhead r">Praktis</div>
+          <div class="inner">
+            <h2>Formula subsidi yang dapat dijelaskan</h2>
+            <p>Masukan untuk menyempurnakan aplikasi RAB, terutama cara subsidi silang ditetapkan secara adil, transparan, dan dapat diperiksa.</p>
+            <h2>Program kerja yang partisipatif</h2>
+            <p>Panduan agar RAB tahunan lahir dari kebutuhan umat dan arah pastoral keuskupan, bukan dari daftar kegiatan yang disusun mendadak.</p>
+            <h2>Kepercayaan umat</h2>
+            <p>Keterbukaan alokasi dana persembahan diharapkan memelihara kepercayaan, sehingga dukungan terhadap misi Gereja berlanjut.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>05 / 15</b></footer>
+  </div>
+  <p class="notes">Manfaat akademik: menguji kelayakan stewardship theory pada lembaga keagamaan, dan menjadi rujukan tata kelola yang tidak memisahkan angka dari etika serta iman. Manfaat praktis ditujukan kepada keuskupan dan paroki: evaluasi aplikasi RAB, terutama rumusan subsidi silang, serta pegangan agar program tahunan disusun secara partisipatif. Ujungnya adalah kepercayaan umat.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 2 · Tinjauan pustaka</p>
+      <h1>Landasan yang dipakai</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="grid2" style="flex:1">
+        <article class="card">
+          <h2 style="margin-top:0">Stewardship</h2>
+          <div class="src">Davis, Schoorman, dan Donaldson (1997)</div>
+          <p style="margin-top:10px">Pengelola bertindak sebagai pelayan: tujuan selaras dengan misi, motivasi intrinsik, dan orientasi kolektif. Pengendalian formal adalah sarana koordinasi, bukan alat curiga.</p>
+        </article>
+        <article class="card k">
+          <h2 style="margin-top:0">Bonus pater familias</h2>
+          <div class="src">Kitab Hukum Kanonik</div>
+          <p style="margin-top:10px">Pengelola harta gereja wajib bertindak hati-hati, menjaga keutuhan aset, dan mencegah pemborosan. Amanah itu ditujukan kepada Allah dan umat.</p>
+        </article>
+        <article class="card">
+          <h2 style="margin-top:0">Solidaritas</h2>
+          <div class="src">Sollicitudo Rei Socialis</div>
+          <p style="margin-top:10px">Keuskupan adalah satu tubuh yang saling menopang. Dalam anggaran, wujudnya adalah subsidi silang: surplus paroki yang mampu menopang paroki yang defisit.</p>
+        </article>
+        <article class="card y">
+          <h2 style="margin-top:0">Subsidiaritas</h2>
+          <div class="src">Quadragesimo Anno</div>
+          <p style="margin-top:10px">Kewenangan yang lebih tinggi tidak mengambil alih apa yang mampu dikerjakan paroki. Keuskupan menetapkan kerangka, mendampingi, dan membantu bila kapasitas basis tidak mencukupi.</p>
+        </article>
+      </div>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>06 / 15</b></footer>
+  </div>
+  <p class="notes">Empat pegangan. Stewardship memandang pengurus sebagai pelayan, jadi RAB bukan tanda curiga, melainkan sarana koordinasi visi pastoral. Bonus pater familias menuntut kehati-hatian kepala keluarga. Solidaritas menuntut subsidi silang. Subsidiaritas melarang kuria mengambil alih apa yang masih sanggup diputuskan paroki. Keduanya harus jalan bersama, dan tempat operasionalnya adalah RAB. RAB di sini adalah otorisasi belanja dan pertanggungjawaban dana umat, bukan anggaran laba.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 2 · Tabel 2.2</p>
+      <h1>Harmonisasi solidaritas dan subsidiaritas dalam RAB</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <table class="naskah t22">
+        <colgroup><col style="width:16%"><col style="width:28%"><col style="width:28%"><col style="width:28%"></colgroup>
+        <thead>
+          <tr>
+            <th>Parameter tata kelola</th>
+            <th class="red">Prinsip solidaritas</th>
+            <th class="yel">Prinsip subsidiaritas</th>
+            <th>Titik temu dalam sistem RAB</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="lab">Landasan doktrinal</td>
+            <td>Kesatuan Tubuh Mistik Kristus (Sollicitudo Rei Socialis, KASG Art. 192).</td>
+            <td>Penghormatan inisiatif komunitas (Quadragesimo Anno, KASG Art. 185).</td>
+            <td>Eklesiologi persekutuan (communio) yang menghargai keragaman fungsi organ tubuh gereja.</td>
+          </tr>
+          <tr>
+            <td class="lab">Fokus kebijakan</td>
+            <td>Pemerataan sumber daya dan mitigasi disparitas finansial antarentitas paroki.</td>
+            <td>Kebebasan penetapan skala prioritas belanja program pastoral teritori paroki.</td>
+            <td>Subsidi silang terencana yang mempertahankan keleluasaan kreativitas pastoral basis.</td>
+          </tr>
+          <tr>
+            <td class="lab">Mekanisme anggaran</td>
+            <td>Kontribusi surplus paroki mandiri dan penetapan formula transfer dana perimbangan.</td>
+            <td>Penganggaran partisipatif berjenjang melalui musyawarah dewan paroki (DPP dan BGKP).</td>
+            <td>Penyusunan usulan RAB mandiri oleh paroki yang disinkronkan ke dalam sistem keuskupan.</td>
+          </tr>
+          <tr>
+            <td class="lab">Batas peran kuria</td>
+            <td>Mengelola distribusi dana penopang defisit demi menjamin keadilan distributif.</td>
+            <td>Pendampingan manajerial, tanpa intervensi mikro.</td>
+            <td>Verifikasi keselarasan rencana kerja tanpa mendikte rincian belanja operasional mikro paroki.</td>
+          </tr>
+          <tr>
+            <td class="lab">Mitigasi kerentanan</td>
+            <td>Mencegah berhentinya pelayanan sakramental di wilayah pedesaan yang miskin.</td>
+            <td>Mencegah matinya partisipasi umat akibat dominasi hierarki sentralistik yang kaku.</td>
+            <td>Standardisasi aplikasi digital RAB terpusat yang transparan dan akuntabel.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <footer class="foot"><span>Sumber: diolah dari Pontifical Council for Justice and Peace (2004), Chrisman (2019), Salinas dan Sastre-Merino (2021), Albinus Di (2024), Pontoh dkk. (2026).</span><b>07 / 15</b></footer>
+  </div>
+  <p class="notes">Ini jantung argumen. Solidaritas mengurus pemerataan: kontribusi surplus dan transfer bagi yang defisit. Subsidiaritas mengurus kebebasan basis: DPP dan BGKP menyusun prioritas lewat musyawarah. Titik temunya adalah usulan yang lahir dari paroki, lalu masuk sistem keuskupan. Kuria memeriksa arah, tetapi tidak menentukan rincian belanja. Kalau yang dikejar hanya keseragaman, partisipasi mati. Kalau otonomi lepas dari solidaritas, ketimpangan melebar.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 2 · Tabel 2.3</p>
+      <h1>Pemetaan penelitian terdahulu dan celah ilmiah</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <table class="naskah t23">
+        <colgroup><col style="width:4%"><col style="width:18%"><col style="width:26%"><col style="width:26%"><col style="width:26%"></colgroup>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Peneliti dan tahun</th>
+            <th>Fokus kajian dan metodologi</th>
+            <th>Temuan utama</th>
+            <th>Celah yang diisi tesis ini</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="lab">1</td>
+            <td>Salinas &amp; Sastre-Merino (2021)</td>
+            <td>Tata kelola keuangan solidaritas; studi empiris aksi kolektif.</td>
+            <td>Keuangan solidaritas dan modal sosial menata peredaran sumber daya.</td>
+            <td>Belum mengaitkan formula subsidi silang dengan RAB digital terpusat di keuskupan.</td>
+          </tr>
+          <tr>
+            <td class="lab">2</td>
+            <td>Christanti, Wibowo, &amp; Wijaya (2023)</td>
+            <td>Akuntansi gerejawi dan teologi inkarnasi; kualitatif interpretif.</td>
+            <td>Akuntansi formal merupakan penatalayanan sakral berbasis oikonomos.</td>
+            <td>Belum mengkaji formula subsidi silang dan otonomi subsidiaritas paroki dalam RAB.</td>
+          </tr>
+          <tr>
+            <td class="lab">3</td>
+            <td>Ahmar, Simbolon, &amp; Darminto (2024)</td>
+            <td>Pengendalian internal keuangan gereja; survei kuantitatif.</td>
+            <td>Pemisahan fungsi dan tenaga akuntansi terlatih memitigasi fraud.</td>
+            <td>Belum membangun model penganggaran berbasis nilai teologis Ajaran Sosial Gereja.</td>
+          </tr>
+          <tr>
+            <td class="lab">4</td>
+            <td>Lomboan, Saerang, &amp; Budiarso (2024)</td>
+            <td>Implementasi ISAK 35 di keuskupan; deskriptif kualitatif.</td>
+            <td>Kendala penyajian laporan posisi keuangan dan aktivitas.</td>
+            <td>Terfokus pada pelaporan historis, bukan pengendalian anggaran program tahunan.</td>
+          </tr>
+          <tr>
+            <td class="lab">5</td>
+            <td>Doaly, Alexander, &amp; Rondonuwu (2025)</td>
+            <td>Pelaporan keuangan gereja; kualitatif deskriptif.</td>
+            <td>Pelaporan masih bertumpu pada kas masuk-keluar dan memicu asimetri informasi.</td>
+            <td>Terbatas pada buku kas historis, bukan perencanaan RAB terpadu.</td>
+          </tr>
+          <tr>
+            <td class="lab">6</td>
+            <td>Jokakuu &amp; Chalu (2025)</td>
+            <td>Akuntansi gereja yang bertumbuh; studi kasus kualitatif.</td>
+            <td>Pertumbuhan pelayanan sering berbanding terbalik dengan keteraturan pembukuan.</td>
+            <td>Tidak membedah anggaran terpadu sebagai pengendali risiko operasional.</td>
+          </tr>
+          <tr>
+            <td class="lab">7</td>
+            <td>Pontoh, Poputra, &amp; Lambey (2026)</td>
+            <td>Sistem informasi akuntansi digital; studi kasus Gereja Katolik.</td>
+            <td>Sistem digital menjadi jembatan kepercayaan dan penyeimbang kompetensi.</td>
+            <td>Belum menguji dialektika otonomi subsidiaritas paroki dalam RAB.</td>
+          </tr>
+          <tr>
+            <td class="lab">8</td>
+            <td>Fonseca dkk. (2026)</td>
+            <td>Keberlanjutan organisasi nirlaba; studi empiris multikasus.</td>
+            <td>Keberlanjutan lahir dari komitmen mikro, struktur meso, dan regulasi makro.</td>
+            <td>Meneliti yayasan sekuler, belum tata kelola keuskupan Katolik.</td>
+          </tr>
+          <tr class="now">
+            <td>9</td>
+            <td>Penelitian sekarang</td>
+            <td>Tata kelola RAB yang mengintegrasikan solidaritas dan subsidiaritas; kualitatif interpretif, studi kasus komparatif 4 paroki di Keuskupan Surabaya.</td>
+            <td>Menganalisis desain, penyusunan, dan pengendalian RAB digital serta merumuskan model yang mengharmoniskan subsidi silang dan penganggaran partisipatif DPP–BGKP.</td>
+            <td>Membangun model RAB digital terpusat yang menyinergikan stewardship, hukum kanonik, serta solidaritas dan subsidiaritas.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <footer class="foot"><span>Sumber: Tabel 2.3 naskah. Baris kuning adalah posisi penelitian ini.</span><b>08 / 15</b></footer>
+  </div>
+  <p class="notes">Delapan kajian itu sudah membahas keuangan solidaritas, akuntansi gereja, pengendalian internal, ISAK 35, sistem digital, dan keberlanjutan nirlaba. Belum ada yang membangun model RAB pada aplikasi terpusat sebuah keuskupan, dengan sekaligus mengurus subsidi silang dan otonomi paroki. Kebaruannya adalah perbandingan paroki besar dan kecil. Saya tidak mengklaim menemukan kedua prinsip itu. Yang baru adalah cara keduanya dilembagakan dalam siklus RAB Keuskupan Surabaya.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 2 · Gambar 2.1</p>
+      <h1>Kerangka konseptual</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="flow">
+        <article class="fbox" data-n="01">
+          <span class="stamp">1</span>
+          <h2>Input masalah</h2>
+          <p>Disparitas paroki mandiri dan paroki defisit. Belum ada budaya RAB tahunan. Kewajiban aplikasi digital berdasarkan SK No. 032/G.113/II/2026.</p>
+        </article>
+        <div class="arrow">→</div>
+        <article class="fbox" data-n="02">
+          <span class="stamp">2</span>
+          <h2>Landasan</h2>
+          <p>Stewardship theory, solidaritas dan subsidiaritas dalam Ajaran Sosial Gereja, serta mandat kanonik bonus pater familias.</p>
+        </article>
+        <div class="arrow">→</div>
+        <article class="fbox r" data-n="03">
+          <span class="stamp">3</span>
+          <h2>Proses RAB</h2>
+          <p>Perencanaan, pengesahan, alokasi, dan pengendalian. Solidaritas lewat subsidi silang. Subsidiaritas lewat otonomi DPP dan BGKP.</p>
+        </article>
+        <div class="arrow">→</div>
+        <article class="fbox y" data-n="04">
+          <span class="stamp">4</span>
+          <h2>Tata kelola</h2>
+          <p>Transparansi informasi anggaran. Akuntabilitas vertikal kepada keuskupan dan horisontal kepada umat.</p>
+        </article>
+        <div class="arrow">→</div>
+        <article class="fbox" data-n="05">
+          <span class="stamp">5</span>
+          <h2>Hasil</h2>
+          <p>Model tata kelola RAB, kepercayaan fidusia umat, dan keberlanjutan misi Gereja di seluruh paroki Keuskupan Surabaya.</p>
+        </article>
+      </div>
+    </div>
+    <footer class="foot"><span>Gambar 2.1. Alur konseptual non-kausal, bukan uji statistik. Sumber: diolah oleh peneliti (2026).</span><b>09 / 15</b></footer>
+  </div>
+  <p class="notes">Kerangka ini adalah peta analisis, bukan model untuk diuji statistik. Titik berangkatnya konteks Keuskupan Surabaya. Fenomena itu dibaca dengan stewardship dan Ajaran Sosial Gereja. Instrumennya siklus RAB. Di situlah subsidi silang dan partisipasi DPP serta BGKP diamati bersama. Tandanya adalah tata kelola yang terbuka, baik kepada keuskupan maupun kepada Allah dan umat. Muaranya kepercayaan umat dan keberlanjutan misi. Isinya akan diisi setelah wawancara dan telaah dokumen.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 3 · Metode</p>
+      <h1>Rancangan penelitian</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="mini" style="flex:1">
+        <article class="card"><h2>Paradigma</h2><p>Interpretatif. Realitas tata kelola dipahami dari makna, pengalaman, dan interaksi para pengelola, bukan dari angka yang berdiri sendiri.</p></article>
+        <article class="card y"><h2>Pendekatan</h2><p>Kualitatif. Yang ditelusuri adalah proses, keputusan, dan cara solidaritas serta subsidiaritas dijalankan.</p></article>
+        <article class="card k"><h2>Desain</h2><p>Studi kasus komparatif: paroki besar dan paroki kecil di bawah kebijakan RAB yang sama.</p></article>
+        <article class="card k"><h2>Unit analisis</h2><p>Proses dan sistem tata kelola RAB tingkat paroki, dari perancangan dan subsidi sampai pertanggungjawaban.</p></article>
+        <article class="card"><h2>Analisis</h2><p>Model interaktif Miles, Huberman, dan Saldaña: kondensasi data, penyajian data, serta penarikan dan verifikasi kesimpulan.</p></article>
+        <article class="card y"><h2>Keabsahan</h2><p>Wawancara dibandingkan dengan dokumen anggaran dan kebijakan, agar tafsiran tidak bertumpu pada satu sumber.</p></article>
+      </div>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>10 / 15</b></footer>
+  </div>
+  <p class="notes">Metode ini dipilih karena objeknya makna dan proses. Paradigma interpretatif mendengar bagaimana pastor, bendahara, dan pengurus memahami kewajiban RAB. Kebijakannya sama, kapasitas parokinya berbeda. Perbandingan itulah yang membuat kedua prinsip terlihat konkret. Unit analisisnya proses tata kelola, bukan orang seorang. Analisis mengikuti Miles, Huberman, dan Saldaña sejak data mulai terkumpul. Keabsahan dijaga dengan membandingkan tuturan dan dokumen.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 3 · Metode</p>
+      <h1>Lokasi dan informan</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="loc">
+        <div>
+          <table class="tloc">
+            <thead>
+              <tr><th>Kelompok</th><th>Paroki</th><th>Alasan pemilihan</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="lab">Paroki besar</td><td>St. Yakobus, Surabaya</td><td>Paroki kota, untuk membaca daya dukung yang lebih stabil</td></tr>
+              <tr><td class="lab">Paroki besar</td><td>Hati Kudus Yesus, Surabaya</td><td>Pembanding di dalam kelompok paroki kota</td></tr>
+              <tr><td class="lab">Paroki kecil</td><td>Kristus Raja, Ngrambe</td><td>Paroki luar kota, untuk membaca keterbatasan sumber daya</td></tr>
+              <tr><td class="lab">Paroki kecil</td><td>St. Fransiskus Asisi, Mojorejo</td><td>Pembanding di dalam kelompok paroki luar kota</td></tr>
+            </tbody>
+          </table>
+          <p class="hint">Nama pada tabel adalah lokasi penelitian. Contoh paroki lain di latar belakang hanya menggambarkan disparitas, bukan daftar sampel.</p>
+        </div>
+        <aside class="side">
+          <h2>Informan</h2>
+          <div class="sub">Purposif, menurut peran</div>
+          <ul>
+            <li>Pastor Kepala Paroki</li>
+            <li>Anggota BGKP</li>
+            <li>Bendahara Paroki</li>
+            <li>Sekretaris Paroki</li>
+            <li>Perwakilan seksi DPP</li>
+          </ul>
+          <p class="hint" style="color:#F6E7A8">Dipilih karena terlibat pada perencanaan, pelaksanaan, pengawasan, atau evaluasi RAB.</p>
+        </aside>
+      </div>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>11 / 15</b></footer>
+  </div>
+  <p class="notes">Empat paroki. Besar: Santo Yakobus Surabaya dan Hati Kudus Yesus Surabaya. Kecil: Kristus Raja Ngrambe dan Santo Fransiskus Asisi Mojorejo. Santa Maria Tak Bercela di latar belakang hanya gambaran ketimpangan, bukan sampel. Informan dipilih menurut peran: pastor, BGKP, bendahara, sekretaris, dan seksi DPP. Siapa yang menopang dan siapa yang ditopang tidak saya tetapkan dari ukuran paroki. Itu dibaca nanti dari dokumen subsidi dan penjelasan informan.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 3 · Tabel 3.2</p>
+      <h1>Jenis dan sumber data</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <table class="naskah roomy t32">
+        <colgroup><col style="width:38%"><col style="width:31%"><col style="width:31%"></colgroup>
+        <thead>
+          <tr><th>Data</th><th>Jenis data</th><th>Sumber data</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pemahaman, pengalaman, dan penjelasan informan mengenai penyusunan serta pengendalian RAB, termasuk penerapan solidaritas dan subsidiaritas.</td>
+            <td>Data primer: tuturan verbal dan narasi dalam transkrip wawancara.</td>
+            <td>Wawancara mendalam dengan informan kunci pada paroki yang diteliti.</td>
+          </tr>
+          <tr>
+            <td>Dokumen kebijakan standardisasi penganggaran terpadu berbasis aplikasi digital dan buku petunjuk tata kelola keuangan paroki.</td>
+            <td>Data sekunder: dokumen kebijakan dan pedoman.</td>
+            <td>Dokumen resmi keuskupan yang tersedia pada paroki terkait.</td>
+          </tr>
+          <tr>
+            <td>Dokumen anggaran paroki: usulan RAB tahun berjalan, laporan realisasi anggaran, dan laporan pertanggungjawaban program pastoral.</td>
+            <td>Data sekunder: dokumen penganggaran dan pelaporan.</td>
+            <td>Arsip penganggaran dan pertanggungjawaban pada paroki yang diteliti.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <footer class="foot"><span>Sumber: Tabel 3.2, diolah peneliti (2026).</span><b>12 / 15</b></footer>
+  </div>
+  <p class="notes">Tabel 3.2 membedakan tiga kelompok data. Pertama, tuturan informan tentang cara RAB disusun dan dikendalikan, serta bagaimana mereka memahami solidaritas dan subsidiaritas. Kedua, dokumen kebijakan keuskupan, termasuk SK digitalisasi dan pedoman tata kelola. Ketiga, arsip anggaran paroki: usulan RAB, realisasi, dan pertanggungjawaban. Data primer dan sekunder dipakai bersama supaya tafsiran tidak bergantung pada satu sumber.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Bab 3 · Metode</p>
+      <h1>Data, instrumen, dan analisis</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <div class="grid2">
+        <article class="panel">
+          <div class="colhead k">Data primer</div>
+          <div class="inner">
+            <h2 style="margin-top:4px">Wawancara mendalam semi-terstruktur</h2>
+            <p>Tema: penyusunan, pelaksanaan, evaluasi, dan pengendalian RAB; cara subsidi dipahami; ruang otonomi paroki; serta akuntabilitas kepada keuskupan dan umat.</p>
+            <p style="margin-top:8px">Direkam hanya setelah informan setuju, kemudian ditranskrip.</p>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="colhead y">Data sekunder</div>
+          <div class="inner">
+            <p>SK No. 032/G.113/II/2026 dan pedoman tata kelola harta benda gereja.</p>
+            <p style="margin-top:8px">Profil paroki, usulan RAB tahun berjalan, laporan realisasi, dan laporan pertanggungjawaban program pastoral.</p>
+          </div>
+        </article>
+      </div>
+      <div class="steps" style="margin-top:16px; flex:1">
+        <article class="card"><h2>1 · Kondensasi</h2><p>Memilih dan mengelompokkan wawancara serta dokumen menurut tahap RAB dan kedua prinsip.</p></article>
+        <article class="card y"><h2>2 · Penyajian</h2><p>Menata temuan sebagai narasi, matriks, dan perbandingan antarparoki.</p></article>
+        <article class="card k"><h2>3 · Kesimpulan</h2><p>Menafsirkan temuan dengan teori, lalu memeriksanya kembali pada data.</p></article>
+      </div>
+    </div>
+    <footer class="foot"><span>Instrumen utama adalah peneliti, dengan panduan wawancara, catatan lapangan, dan perekam.</span><b>13 / 15</b></footer>
+  </div>
+  <p class="notes">Wawancara semi-terstruktur: ada pertanyaan inti, tetapi informan boleh menceritakan praktik yang tidak saya duga. Rekaman hanya atas persetujuan. Dokumen menguji cerita itu. Jika informan mengatakan paroki bebas menentukan program, saya periksa apakah usulan RAB memang lahir dari DPP dan bagaimana kuria meninjaunya. Tiga langkah analisis berputar: kondensasi, penyajian komparatif, lalu kesimpulan yang dicek kembali ke transkrip dan dokumen.</p>
+</section>
+
+<section class="slide">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="frame">
+    <header>
+      <p class="kicker">Arah kerja lapangan</p>
+      <h1>Yang akan dihasilkan</h1>
+      <div class="rule"></div>
+    </header>
+    <div class="content">
+      <p class="lead" style="color:var(--muted); margin-bottom:16px">Seminar ini membahas rancangan. Temuan lapangan belum ada. Tiga luaran berikut disusun setelah data terkumpul.</p>
+      <div class="grid3" style="flex:1">
+        <article class="card">
+          <span class="stamp">01</span>
+          <h2>Gambaran komparatif</h2>
+          <p>Cara paroki besar dan paroki kecil mendesain, mengesahkan, dan mengendalikan RAB di bawah SK yang sama.</p>
+        </article>
+        <article class="card y">
+          <span class="stamp">02</span>
+          <h2>Operasionalisasi dua prinsip</h2>
+          <p>Bagaimana solidaritas tampak pada subsidi silang, dan bagaimana subsidiaritas terjaga dalam musyawarah DPP serta BGKP.</p>
+        </article>
+        <article class="card k">
+          <span class="stamp">03</span>
+          <h2>Model konseptual</h2>
+          <p>Model tata kelola RAB yang mengikat keduanya, untuk memperkuat akuntabilitas fidusia dan keberlanjutan misi Gereja.</p>
+        </article>
+      </div>
+      <div class="band" style="margin-top:16px">
+        <p>Model yang dihasilkan bersifat konseptual dan kontekstual. Ia menjelaskan tata kelola di Keuskupan Surabaya, serta dapat menjadi bahan refleksi bagi keuskupan dengan struktur yang serupa. Ia bukan rumus yang langsung dipindahkan ke tempat lain.</p>
+      </div>
+    </div>
+    <footer class="foot"><span>Seminar Proposal · Magister Akuntansi · Universitas Katolik Widya Mandala Surabaya</span><b>14 / 15</b></footer>
+  </div>
+  <p class="notes">Saya belum memiliki temuan. Tiga hal yang akan dibawa pada ujian akhir: perbandingan proses RAB paroki besar dan kecil; uraian cara subsidi dan otonomi dijalankan, termasuk ketegangannya; serta model konseptual yang mengikat keduanya. Model itu kontekstual untuk Keuskupan Surabaya. Keuskupan lain dapat belajar dari logikanya, tetapi tidak menyalin rumus subsidi tanpa membaca konteksnya sendiri.</p>
+</section>
+
+<section class="slide end">
+  <div class="brandbar"><i></i><i></i><i></i><i></i></div>
+  <div class="end-main">
+    <div class="eyebrow">PENUTUP</div>
+    <h1>RAB adalah tempat visi pastoral diterjemahkan menjadi keputusan atas dana umat.</h1>
+    <div class="end-points">
+      <p>Solidaritas menata agar paroki yang mampu menopang paroki yang terbatas.</p>
+      <p>Subsidiaritas menjaga agar bantuan itu tidak mengambil alih prakarsa paroki.</p>
+      <p>Penelitian ini hendak menyusun model yang membuat keduanya berjalan bersama.</p>
+    </div>
+    <div class="thanks">Mohon arahan dan masukan.<b>Terima kasih.</b></div>
+  </div>
+  <div class="end-foot">
+    <img class="word" alt="UKWMS, a life-improving university" src="data:image/webp;base64,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">
+    <div><b>Darmokusumo Atmojo Sugiharto</b>Magister Akuntansi · Fakultas Bisnis · UKWMS</div>
+  </div>
+  <p class="notes">RAB bukan sekadar tabel penerimaan dan pengeluaran. Ia adalah tempat visi pastoral menjadi keputusan atas dana umat. Solidaritas menata agar yang mampu menopang yang terbatas. Subsidiaritas menjaga agar bantuan itu tidak merebut prakarsa paroki. Penelitian ini hendak menyusun model yang membuat keduanya berjalan bersama. Saya mohon arahan, khususnya bila fokus, pilihan paroki, atau cara merumuskan model perlu diperjelas. Terima kasih.</p>
+</section>
+
+</div>
+</div>
+
+<div id="progress"><span id="bar"></span></div>
+<div class="hud">
+  <button type="button" id="prev" aria-label="Slide sebelumnya">←</button>
+  <span id="counter">1 / 14</span>
+  <button type="button" id="next" aria-label="Slide berikutnya">→</button>
+  <button type="button" id="notesbtn">Catatan</button>
+  <button type="button" id="fs">Layar penuh</button>
+  <span class="hint-swipe">Geser untuk pindah</span>
+</div>
+<div class="notes-panel" aria-live="polite">
+  <div class="nh">Catatan lisan · tombol N untuk menutup</div>
+  <p id="notestext"></p>
+</div>
+
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const deck = document.getElementById("deck");
+  const bar = document.getElementById("bar");
+  const counter = document.getElementById("counter");
+  const notesText = document.getElementById("notestext");
+  let i = 0;
+
+  function wantsPhone() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    return w < 900 || Math.min(w / 1600, h / 900) < 0.62;
+  }
+
+  function fit() {
+    const phone = wantsPhone();
+    document.body.classList.toggle("phone", phone);
+    const view = document.querySelector(".viewport");
+    if (phone) {
+      const hud = document.querySelector(".hud");
+      const gap = (hud ? hud.offsetHeight : 96) + 14;
+      const notes = document.body.classList.contains("show-notes") ? Math.round(window.innerHeight * 0.42) : 0;
+      view.style.height = "calc(100dvh - " + (gap + notes) + "px - env(safe-area-inset-bottom))";
+      deck.style.top = "";
+      deck.style.transform = "none";
+      return;
+    }
+    view.style.height = "";
+    const notes = document.body.classList.contains("show-notes") ? 210 : 0;
+    const availH = window.innerHeight - notes;
+    const s = Math.min(window.innerWidth / 1600, availH / 900);
+    deck.style.top = (availH / 2) + "px";
+    deck.style.transform = "translate(-50%, -50%) scale(" + s + ")";
+  }
+
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, idx) {
+      const on = idx === i;
+      s.classList.toggle("active", on);
+      s.setAttribute("aria-hidden", on ? "false" : "true");
+    });
+    bar.style.width = ((i + 1) / slides.length * 100) + "%";
+    counter.textContent = (i + 1) + " / " + slides.length;
+    const note = slides[i].querySelector(".notes");
+    notesText.textContent = note ? note.textContent.trim() : "";
+    if (slides[i]) slides[i].scrollTop = 0;
+  }
+
+  document.getElementById("next").addEventListener("click", function () { show(i + 1); });
+  document.getElementById("prev").addEventListener("click", function () { show(i - 1); });
+  document.getElementById("notesbtn").addEventListener("click", function () {
+    document.body.classList.toggle("show-notes");
+    fit();
+  });
+  document.getElementById("fs").addEventListener("click", function () {
+    const el = document.documentElement;
+    const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      if (req) {
+        const pending = req.call(el);
+        if (pending && pending.catch) pending.catch(function () {});
+      }
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    const k = e.key;
+    if (k === "ArrowRight" || k === "PageDown" || k === " ") { e.preventDefault(); show(i + 1); }
+    else if (k === "ArrowLeft" || k === "PageUp" || k === "Backspace") { e.preventDefault(); show(i - 1); }
+    else if (k === "Home") show(0);
+    else if (k === "End") show(slides.length - 1);
+    else if (k === "n" || k === "N") { document.body.classList.toggle("show-notes"); fit(); }
+    else if (k === "f" || k === "F") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  document.getElementById("deck").addEventListener("click", function (e) {
+    if (document.body.classList.contains("phone")) return;
+    if (e.target.closest("a, button")) return;
+    const x = e.clientX / window.innerWidth;
+    show(x < 0.22 ? i - 1 : i + 1);
+  });
+
+  let touchX = 0, touchY = 0;
+  deck.addEventListener("touchstart", function (e) {
+    if (e.touches.length !== 1) return;
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  deck.addEventListener("touchend", function (e) {
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchX;
+    const dy = t.clientY - touchY;
+    if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+    let el = e.target;
+    while (el && el !== deck) {
+      if (el.scrollWidth > el.clientWidth + 8) {
+        const atStart = el.scrollLeft <= 4;
+        const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+        if (dx > 0 && !atStart) return;
+        if (dx < 0 && !atEnd) return;
+      }
+      el = el.parentElement;
+    }
+    show(dx < 0 ? i + 1 : i - 1);
+  }, { passive: true });
+
+  window.addEventListener("resize", fit);
+  show(0);
+  fit();
+})();
+</script>
+</body>
+</html>
