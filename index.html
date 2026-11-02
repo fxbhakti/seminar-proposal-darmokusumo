@@ -19,7 +19,7 @@
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: #0e0e0e; overflow: hidden; }
-  body { font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
   .viewport { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
   body.show-notes .viewport { height: calc(100vh - 210px); }
   #deck { width: 1600px; height: 900px; position: absolute; left: 50%; top: 50%; transform-origin: center center; }
@@ -224,31 +224,36 @@
   .notes-panel p { margin-top: 8px; font-size: 18px; line-height: 1.4; max-width: 1480px; overflow: auto; max-height: 140px; }
 
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  .slide.active { animation: rise .38s ease; }
-  @keyframes rise { from { opacity: .2; } to { opacity: 1; } }
+  .slide.active { animation: rise .28s ease; }
+  @keyframes rise { from { opacity: .86; } to { opacity: 1; } }
   .hint-swipe { display: none; }
 
   body.phone {
-    overflow: hidden;
+    display: flex; flex-direction: column; overflow: hidden;
+    height: 100%; height: 100dvh; max-width: 100%;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    font-size: clamp(15px, 4.05vw, 18px);
   }
-  body.phone .viewport { width: 100%; height: calc(100dvh - 78px - env(safe-area-inset-bottom)); }
-  body.phone.show-notes .viewport { height: calc(100dvh - 42vh - 78px); }
+  body.phone .viewport {
+    position: relative; flex: 1 1 auto; width: 100%; height: auto !important;
+    min-height: 0; max-width: 100%; overflow: hidden;
+  }
   body.phone #deck {
-    position: relative; left: auto; top: auto !important; width: 100%; height: 100%;
+    position: relative; left: auto; top: auto !important; width: 100%; height: 100%; max-width: 100%;
     transform: none !important;
   }
   body.phone .slide {
-    position: relative; width: 100%; height: 100%; min-height: 0;
-    overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
-    touch-action: manipulation;
+    position: relative; width: 100%; height: 100%; min-height: 0; max-width: 100%;
+    overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; touch-action: pan-y;
   }
-  body.phone .page-logo { height: 54px; top: 10px; left: 10px; }
-  body.phone .frame { flex: 0 0 auto; min-height: auto; padding: 8px 14px 12px; }
-  body.phone .frame > header { padding-left: 68px; }
-  body.phone h1 { font-size: 26px; line-height: 1.15; }
-  body.phone .kicker { font-size: 12px; letter-spacing: .08em; }
-  body.phone .content { flex: 0 0 auto; min-height: auto; padding-top: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  body.phone .slide, body.phone .slide * { overflow-wrap: break-word; }
+  body.phone .page-logo { height: clamp(42px, 12vw, 58px); max-width: 30vw; top: 8px; left: 8px; object-fit: contain; }
+  body.phone .frame { flex: 0 0 auto; min-height: auto; width: 100%; padding: 8px 14px 20px; }
+  body.phone .frame > header { padding-left: clamp(56px, 16vw, 76px); }
+  body.phone h1 { font-size: clamp(22px, 6.5vw, 34px); line-height: 1.18; }
+  body.phone .kicker { font-size: clamp(11px, 3vw, 13px); letter-spacing: .06em; }
+  body.phone .content { flex: 0 0 auto; min-height: auto; width: 100%; padding-top: 14px; overflow: visible; }
   body.phone .content > .grid2,
   body.phone .content > .grid3,
   body.phone .content > .mini,
@@ -257,23 +262,26 @@
     grid-template-columns: 1fr; grid-template-rows: none; flex: none;
   }
   body.phone .card, body.phone .panel, body.phone .fbox { height: auto; overflow: visible; }
-  body.phone .card h2 { font-size: 18px; }
-  body.phone .card p, body.phone .lead, body.phone .panel p, body.phone .band p { font-size: 16px; }
-  body.phone .q { grid-template-columns: 52px 1fr; padding: 16px; }
-  body.phone .q .n { width: 48px; height: 48px; font-size: 22px; }
-  body.phone .q p { font-size: 17px; }
+  body.phone .card h2, body.phone .fbox h2, body.phone .panel h2, body.phone .side h2 { font-size: clamp(17px, 4.7vw, 23px); }
+  body.phone .card p, body.phone .lead, body.phone .panel p, body.phone .band p,
+  body.phone .callout p, body.phone .dark p, body.phone .fbox p, body.phone .side li {
+    font-size: clamp(15px, 4.05vw, 18px); line-height: 1.45;
+  }
+  body.phone .q { grid-template-columns: clamp(44px, 12vw, 56px) minmax(0, 1fr); padding: 14px; }
+  body.phone .q .n { width: clamp(40px, 11vw, 52px); height: clamp(40px, 11vw, 52px); font-size: clamp(18px, 5vw, 24px); }
+  body.phone .q p { font-size: clamp(16px, 4.3vw, 20px); line-height: 1.4; }
   body.phone .content:has(> .q),
   body.phone .content:has(> table.roomy),
   body.phone .content:has(> .loc) { justify-content: flex-start; }
   body.phone .split { grid-template-columns: 1fr !important; grid-template-rows: none !important; }
   body.phone .dark { grid-row: auto !important; }
   body.phone .loc { grid-template-columns: 1fr; flex: none; }
-  body.phone .flow { display: flex; flex-direction: column; gap: 0; }
+  body.phone .flow { display: flex; flex-direction: column; gap: 0; width: 100%; }
   body.phone .arrow { padding: 0; height: 28px; transform: rotate(90deg); }
-  body.phone .fbox h2 { font-size: 18px; }
-  body.phone .fbox p { font-size: 15px; }
   body.phone .stamp { align-self: flex-start; }
-  body.phone .fbox::after { font-size: 36px; }
+  body.phone .fbox::after { font-size: clamp(28px, 8vw, 40px); }
+  body.phone .rowbar { grid-template-columns: 48px minmax(0, 1fr); }
+  body.phone .rowbar span { grid-column: 1 / -1; }
   body.phone table, body.phone table tbody, body.phone table tr { display: block; width: 100%; min-width: 0; }
   body.phone table { min-width: 0; }
   body.phone table thead { display: none; }
@@ -283,12 +291,12 @@
   }
   body.phone table td, body.phone table.naskah td, body.phone table.roomy td {
     display: block; width: 100%; min-width: 0; max-width: 100%;
-    font-size: 15px; line-height: 1.4; white-space: normal;
+    font-size: clamp(15px, 4vw, 17px); line-height: 1.45; white-space: normal;
     padding: 8px 12px; border-bottom: 1px solid #eee; box-sizing: border-box;
   }
   body.phone table td::before {
     content: ""; display: block; margin-bottom: 2px;
-    color: var(--red); font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--red); font-size: clamp(11px, 2.8vw, 12px); font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
   }
   body.phone .t22 td:nth-child(1)::before { content: "Parameter tata kelola"; }
   body.phone .t22 td:nth-child(2)::before { content: "Prinsip solidaritas"; }
@@ -306,28 +314,33 @@
   body.phone .t32 td:nth-child(2)::before { content: "Jenis data"; }
   body.phone .t32 td:nth-child(3)::before { content: "Sumber data"; }
   body.phone table.naskah tr.now td { background: #fff6c2; }
-  body.phone footer.foot { height: auto; min-height: 44px; flex-wrap: wrap; gap: 6px; padding: 8px 0 4px; }
-  body.phone .cover-top { min-height: 64px; padding: 8px 12px 0; }
-  body.phone .cover-top img.word { height: 46px; }
-  body.phone .cover-main { padding: 8px 16px 0; justify-content: flex-start; }
-  body.phone .cover-main h1 { font-size: 30px; }
-  body.phone .cover-main .sub { font-size: 18px; }
+  body.phone footer.foot { height: auto; min-height: 44px; flex-wrap: wrap; align-items: flex-start; gap: 6px; padding: 10px 0 4px; font-size: clamp(12px, 3.2vw, 14px); }
+  body.phone footer.foot span { flex: 1 1 180px; min-width: 0; }
+  body.phone .cover-top { min-height: 58px; padding: 6px 12px 0 32vw; }
+  body.phone .cover-top img.word { height: clamp(30px, 9vw, 46px); max-width: 58vw; object-fit: contain; }
+  body.phone .cover-main, body.phone .end-main { flex: 1 0 auto; }
+  body.phone .cover-main { padding: 8px 16px 12px; justify-content: center; }
+  body.phone .cover-main h1 { font-size: clamp(26px, 7.6vw, 40px); }
+  body.phone .cover-main .sub, body.phone .advisor strong { font-size: clamp(16px, 4.4vw, 22px); }
+  body.phone .cover-foot .name { font-size: clamp(18px, 5vw, 24px); }
   body.phone .cover-foot { flex-direction: column; align-items: flex-start; gap: 10px; min-height: 0; padding: 16px; }
-  body.phone .cover-foot .right { text-align: left; }
-  body.phone .end-main { padding: 76px 18px 16px; }
-  body.phone .end-main h1 { font-size: 26px; }
-  body.phone .end-points p { font-size: 17px; }
+  body.phone .cover-foot .right, body.phone .cover-foot .meta { text-align: left; font-size: clamp(14px, 3.6vw, 16px); }
+  body.phone .end-main { padding: clamp(64px, 18vw, 84px) 16px 16px; }
+  body.phone .end-main h1 { font-size: clamp(22px, 6.2vw, 32px); }
+  body.phone .end-points p { font-size: clamp(16px, 4.3vw, 20px); }
+  body.phone .end-main .thanks { font-size: clamp(18px, 5vw, 24px); }
   body.phone .end-foot { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 16px 16px; }
-  body.phone .end-foot img.word { height: 48px; }
-  body.phone .end-foot div { text-align: left; }
+  body.phone .end-foot img.word { height: clamp(34px, 10vw, 52px); max-width: 70vw; object-fit: contain; }
+  body.phone .end-foot div { text-align: left; font-size: clamp(14px, 3.6vw, 16px); }
+  body.phone #progress { position: relative; bottom: auto !important; flex: none; }
   body.phone .hud {
-    opacity: 1; left: 8px; right: 8px; justify-content: center; flex-wrap: wrap;
-    bottom: calc(10px + env(safe-area-inset-bottom));
+    position: relative; left: auto; right: auto; bottom: auto !important; opacity: 1;
+    flex: none; justify-content: center; flex-wrap: wrap; width: auto;
+    margin: 6px 8px 8px; gap: 6px;
   }
-  body.phone .hud button { min-width: 44px; min-height: 44px; font-size: 16px; }
-  body.phone .hint-swipe { display: inline; color: var(--yellow); font-size: 12px; letter-spacing: .04em; }
-  body.phone .notes-panel { height: 42vh; padding: 12px 16px 16px; }
-  body.phone .notes-panel p { font-size: 16px; max-height: 28vh; }
+  body.phone .hud button, body.phone .hud span { min-height: 44px; font-size: clamp(13px, 3.5vw, 15px); padding: 8px 12px; }
+  body.phone .notes-panel { position: relative; height: auto; max-height: 32vh; bottom: auto; flex: none; padding: 12px 16px; }
+  body.phone .notes-panel p { font-size: clamp(15px, 4vw, 17px); max-height: 22vh; }
 </style>
 </head>
 <body>
@@ -957,7 +970,8 @@
   function wantsPhone() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    return w < 900 || Math.min(w / 1600, h / 900) < 0.62;
+    const s = Math.min(w / 1600, h / 900);
+    return w < 1100 || s < 0.78;
   }
 
   function fit() {
@@ -965,10 +979,7 @@
     document.body.classList.toggle("phone", phone);
     const view = document.querySelector(".viewport");
     if (phone) {
-      const hud = document.querySelector(".hud");
-      const gap = (hud ? hud.offsetHeight : 96) + 14;
-      const notes = document.body.classList.contains("show-notes") ? Math.round(window.innerHeight * 0.42) : 0;
-      view.style.height = "calc(100dvh - " + (gap + notes) + "px - env(safe-area-inset-bottom))";
+      view.style.height = "";
       deck.style.top = "";
       deck.style.transform = "none";
       return;
